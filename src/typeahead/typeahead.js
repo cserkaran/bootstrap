@@ -178,6 +178,10 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
       popUpEl.attr('template-url', attrs.typeaheadTemplateUrl);
     }
 
+    if (angular.isDefined(attrs.typeaheadHideDropDownOnSingleMatch)) {
+      popUpEl.attr('hide-drop-down-on-single-match', attrs.typeaheadHideDropDownOnSingleMatch);
+    }
+
     if (angular.isDefined(attrs.typeaheadPopupTemplateUrl)) {
       popUpEl.attr('popup-template-url', attrs.typeaheadPopupTemplateUrl);
     }
@@ -619,9 +623,10 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.debounce', 'ui.bootstrap
       },
       link: function(scope, element, attrs) {
         scope.templateUrl = attrs.templateUrl;
-
+        scope.hideDropDownOnSingleMatch = attrs.hideDropDownOnSingleMatch;
         scope.isOpen = function() {
-          var isDropdownOpen = scope.matches.length > 0;
+          var count = scope.hideDropDownOnSingleMatch ? 1 : 0;    
+          var isDropdownOpen = scope.matches.length > count;
           scope.assignIsOpen({ isOpen: isDropdownOpen });
           return isDropdownOpen;
         };
